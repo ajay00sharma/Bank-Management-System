@@ -17,6 +17,7 @@ void check_acc_nmb(string num) {
     return;
 }
 
+
 void home_return() {
     // Code for returning to the main menu
 }
@@ -31,7 +32,7 @@ bool is_number(string s) {
 }
 
 void write(string name, string oc, string pin) {
-    if (is_number(name) || !is_number(oc) || !is_number(pin) || name == "") {
+    if (!is_number(oc) || !is_number(pin) || name.empty()) {
         cout << "Error: Invalid account detail\nPlease try again." << endl;
         return;
     }
@@ -53,7 +54,7 @@ void write(string name, string oc, string pin) {
     time_t now = time(0);
     char* dt = ctime(&now);
     frec << "Date                             credit      Debit     Balance" << endl;
-    frec << "[" << dt << "]  " << oc << "              " << oc << endl;
+    frec << "[" << dt << "]  " << oc << "" << oc << endl;
     frec.close();
     cout << "Details: Your Account Number is: " << accnt_no << endl;
     return;
@@ -89,7 +90,7 @@ void crdt_write(string amt, string accnt, string name) {
 
 void debit_write(string amt, string accnt, string name) {
     if (!is_number(amt)) {
-        cout << "Error: Invalid account deatils\nPlease try again." << endl;
+        cout << "Error: Invalid account details\nPlease try again." << endl;
         return;
     }
     ifstream fdet(accnt + ".txt");
@@ -148,10 +149,13 @@ void disp_tr_hist(string accnt) {
     string line;
     cout << "Your Transaction History:" << endl;
     while (getline(frec, line)) {
-        cout << line << endl;
+        if (!line.empty()) {
+            cout << line << endl;
+        }
     }
     frec.close();
 }
+
 
 void logged_in_menu(string accnt, string name) {
     cout << "Logged in as: " << name << endl;
@@ -182,8 +186,7 @@ void logged_in_menu(string accnt, string name) {
 }
 
 void check_log_in(string name, string acc_num, string pin) {
-    check_acc_nmb(acc_num);
-    if (is_number(name) || !is_number(pin)) {
+    if (!is_number(acc_num) || !is_number(pin)) {
         cout << "Error: Invalid account details\nPlease try again." << endl;
         return;
     } else {
@@ -202,6 +205,7 @@ void log_in() {
     check_log_in(name, acc_num, pin);
 }
 
+
 void Create() {
     string name, oc, pin;
     cout << "Enter Name: ";
@@ -212,6 +216,7 @@ void Create() {
     cin >> pin;
     write(name, oc, pin);
 }
+
 
 void Main_Menu() {
     string choice;
